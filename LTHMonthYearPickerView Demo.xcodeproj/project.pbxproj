@@ -1,0 +1,459 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2AD10F50189AED6E000A4A73 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD10F4F189AED6E000A4A73 /* Foundation.framework */; };
+		2AD10F52189AED6E000A4A73 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD10F51189AED6E000A4A73 /* CoreGraphics.framework */; };
+		2AD10F54189AED6E000A4A73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD10F53189AED6E000A4A73 /* UIKit.framework */; };
+		2AD10F5A189AED6E000A4A73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AD10F58189AED6E000A4A73 /* InfoPlist.strings */; };
+		2AD10F5C189AED6E000A4A73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD10F5B189AED6E000A4A73 /* main.m */; };
+		2AD10F60189AED6E000A4A73 /* LTHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD10F5F189AED6E000A4A73 /* LTHAppDelegate.m */; };
+		2AD10F62189AED6E000A4A73 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AD10F61189AED6E000A4A73 /* Images.xcassets */; };
+		2AD10F69189AED6E000A4A73 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD10F68189AED6E000A4A73 /* XCTest.framework */; };
+		2AD10F6A189AED6E000A4A73 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD10F4F189AED6E000A4A73 /* Foundation.framework */; };
+		2AD10F6B189AED6E000A4A73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD10F53189AED6E000A4A73 /* UIKit.framework */; };
+		2AD10F73189AED6E000A4A73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AD10F71189AED6E000A4A73 /* InfoPlist.strings */; };
+		2AD10F75189AED6E000A4A73 /* LTHMonthYearPickerView_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD10F74189AED6E000A4A73 /* LTHMonthYearPickerView_DemoTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2AD10F6C189AED6E000A4A73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2AD10F44189AED6E000A4A73 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2AD10F4B189AED6E000A4A73;
+			remoteInfo = "LTHMonthYearPickerView Demo";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2AD10F4C189AED6E000A4A73 /* LTHMonthYearPickerView Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LTHMonthYearPickerView Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AD10F4F189AED6E000A4A73 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2AD10F51189AED6E000A4A73 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2AD10F53189AED6E000A4A73 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2AD10F57189AED6E000A4A73 /* LTHMonthYearPickerView Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LTHMonthYearPickerView Demo-Info.plist"; sourceTree = "<group>"; };
+		2AD10F59189AED6E000A4A73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2AD10F5B189AED6E000A4A73 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2AD10F5D189AED6E000A4A73 /* LTHMonthYearPickerView Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LTHMonthYearPickerView Demo-Prefix.pch"; sourceTree = "<group>"; };
+		2AD10F5E189AED6E000A4A73 /* LTHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LTHAppDelegate.h; sourceTree = "<group>"; };
+		2AD10F5F189AED6E000A4A73 /* LTHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LTHAppDelegate.m; sourceTree = "<group>"; };
+		2AD10F61189AED6E000A4A73 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2AD10F67189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LTHMonthYearPickerView DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AD10F68189AED6E000A4A73 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		2AD10F70189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LTHMonthYearPickerView DemoTests-Info.plist"; sourceTree = "<group>"; };
+		2AD10F72189AED6E000A4A73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2AD10F74189AED6E000A4A73 /* LTHMonthYearPickerView_DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LTHMonthYearPickerView_DemoTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2AD10F49189AED6E000A4A73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD10F52189AED6E000A4A73 /* CoreGraphics.framework in Frameworks */,
+				2AD10F54189AED6E000A4A73 /* UIKit.framework in Frameworks */,
+				2AD10F50189AED6E000A4A73 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD10F64189AED6E000A4A73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD10F69189AED6E000A4A73 /* XCTest.framework in Frameworks */,
+				2AD10F6B189AED6E000A4A73 /* UIKit.framework in Frameworks */,
+				2AD10F6A189AED6E000A4A73 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2AD10F43189AED6E000A4A73 = {
+			isa = PBXGroup;
+			children = (
+				2AD10F55189AED6E000A4A73 /* LTHMonthYearPickerView Demo */,
+				2AD10F6E189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests */,
+				2AD10F4E189AED6E000A4A73 /* Frameworks */,
+				2AD10F4D189AED6E000A4A73 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2AD10F4D189AED6E000A4A73 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2AD10F4C189AED6E000A4A73 /* LTHMonthYearPickerView Demo.app */,
+				2AD10F67189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2AD10F4E189AED6E000A4A73 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2AD10F4F189AED6E000A4A73 /* Foundation.framework */,
+				2AD10F51189AED6E000A4A73 /* CoreGraphics.framework */,
+				2AD10F53189AED6E000A4A73 /* UIKit.framework */,
+				2AD10F68189AED6E000A4A73 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2AD10F55189AED6E000A4A73 /* LTHMonthYearPickerView Demo */ = {
+			isa = PBXGroup;
+			children = (
+				2AD10F5E189AED6E000A4A73 /* LTHAppDelegate.h */,
+				2AD10F5F189AED6E000A4A73 /* LTHAppDelegate.m */,
+				2AD10F61189AED6E000A4A73 /* Images.xcassets */,
+				2AD10F56189AED6E000A4A73 /* Supporting Files */,
+			);
+			path = "LTHMonthYearPickerView Demo";
+			sourceTree = "<group>";
+		};
+		2AD10F56189AED6E000A4A73 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2AD10F57189AED6E000A4A73 /* LTHMonthYearPickerView Demo-Info.plist */,
+				2AD10F58189AED6E000A4A73 /* InfoPlist.strings */,
+				2AD10F5B189AED6E000A4A73 /* main.m */,
+				2AD10F5D189AED6E000A4A73 /* LTHMonthYearPickerView Demo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2AD10F6E189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				2AD10F74189AED6E000A4A73 /* LTHMonthYearPickerView_DemoTests.m */,
+				2AD10F6F189AED6E000A4A73 /* Supporting Files */,
+			);
+			path = "LTHMonthYearPickerView DemoTests";
+			sourceTree = "<group>";
+		};
+		2AD10F6F189AED6E000A4A73 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2AD10F70189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests-Info.plist */,
+				2AD10F71189AED6E000A4A73 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2AD10F4B189AED6E000A4A73 /* LTHMonthYearPickerView Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AD10F78189AED6E000A4A73 /* Build configuration list for PBXNativeTarget "LTHMonthYearPickerView Demo" */;
+			buildPhases = (
+				2AD10F48189AED6E000A4A73 /* Sources */,
+				2AD10F49189AED6E000A4A73 /* Frameworks */,
+				2AD10F4A189AED6E000A4A73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LTHMonthYearPickerView Demo";
+			productName = "LTHMonthYearPickerView Demo";
+			productReference = 2AD10F4C189AED6E000A4A73 /* LTHMonthYearPickerView Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2AD10F66189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AD10F7B189AED6E000A4A73 /* Build configuration list for PBXNativeTarget "LTHMonthYearPickerView DemoTests" */;
+			buildPhases = (
+				2AD10F63189AED6E000A4A73 /* Sources */,
+				2AD10F64189AED6E000A4A73 /* Frameworks */,
+				2AD10F65189AED6E000A4A73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2AD10F6D189AED6E000A4A73 /* PBXTargetDependency */,
+			);
+			name = "LTHMonthYearPickerView DemoTests";
+			productName = "LTHMonthYearPickerView DemoTests";
+			productReference = 2AD10F67189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2AD10F44189AED6E000A4A73 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = LTH;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Roland Leth";
+				TargetAttributes = {
+					2AD10F66189AED6E000A4A73 = {
+						TestTargetID = 2AD10F4B189AED6E000A4A73;
+					};
+				};
+			};
+			buildConfigurationList = 2AD10F47189AED6E000A4A73 /* Build configuration list for PBXProject "LTHMonthYearPickerView Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2AD10F43189AED6E000A4A73;
+			productRefGroup = 2AD10F4D189AED6E000A4A73 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2AD10F4B189AED6E000A4A73 /* LTHMonthYearPickerView Demo */,
+				2AD10F66189AED6E000A4A73 /* LTHMonthYearPickerView DemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2AD10F4A189AED6E000A4A73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD10F5A189AED6E000A4A73 /* InfoPlist.strings in Resources */,
+				2AD10F62189AED6E000A4A73 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD10F65189AED6E000A4A73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD10F73189AED6E000A4A73 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2AD10F48189AED6E000A4A73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD10F5C189AED6E000A4A73 /* main.m in Sources */,
+				2AD10F60189AED6E000A4A73 /* LTHAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD10F63189AED6E000A4A73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD10F75189AED6E000A4A73 /* LTHMonthYearPickerView_DemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2AD10F6D189AED6E000A4A73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2AD10F4B189AED6E000A4A73 /* LTHMonthYearPickerView Demo */;
+			targetProxy = 2AD10F6C189AED6E000A4A73 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2AD10F58189AED6E000A4A73 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2AD10F59189AED6E000A4A73 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2AD10F71189AED6E000A4A73 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2AD10F72189AED6E000A4A73 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2AD10F76189AED6E000A4A73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2AD10F77189AED6E000A4A73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2AD10F79189AED6E000A4A73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LTHMonthYearPickerView Demo/LTHMonthYearPickerView Demo-Prefix.pch";
+				INFOPLIST_FILE = "LTHMonthYearPickerView Demo/LTHMonthYearPickerView Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2AD10F7A189AED6E000A4A73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LTHMonthYearPickerView Demo/LTHMonthYearPickerView Demo-Prefix.pch";
+				INFOPLIST_FILE = "LTHMonthYearPickerView Demo/LTHMonthYearPickerView Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		2AD10F7C189AED6E000A4A73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LTHMonthYearPickerView Demo.app/LTHMonthYearPickerView Demo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LTHMonthYearPickerView Demo/LTHMonthYearPickerView Demo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "LTHMonthYearPickerView DemoTests/LTHMonthYearPickerView DemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		2AD10F7D189AED6E000A4A73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LTHMonthYearPickerView Demo.app/LTHMonthYearPickerView Demo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LTHMonthYearPickerView Demo/LTHMonthYearPickerView Demo-Prefix.pch";
+				INFOPLIST_FILE = "LTHMonthYearPickerView DemoTests/LTHMonthYearPickerView DemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2AD10F47189AED6E000A4A73 /* Build configuration list for PBXProject "LTHMonthYearPickerView Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AD10F76189AED6E000A4A73 /* Debug */,
+				2AD10F77189AED6E000A4A73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2AD10F78189AED6E000A4A73 /* Build configuration list for PBXNativeTarget "LTHMonthYearPickerView Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AD10F79189AED6E000A4A73 /* Debug */,
+				2AD10F7A189AED6E000A4A73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2AD10F7B189AED6E000A4A73 /* Build configuration list for PBXNativeTarget "LTHMonthYearPickerView DemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AD10F7C189AED6E000A4A73 /* Debug */,
+				2AD10F7D189AED6E000A4A73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2AD10F44189AED6E000A4A73 /* Project object */;
+}
