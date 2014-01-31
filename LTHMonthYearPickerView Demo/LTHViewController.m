@@ -41,6 +41,7 @@
 	_dateTextField.tintColor = [UIColor purpleColor];
 	_dateTextField.inputView = _monthYearPicker;
 	[self.view addSubview: _dateTextField];
+	[_dateTextField becomeFirstResponder];
 }
 
 
