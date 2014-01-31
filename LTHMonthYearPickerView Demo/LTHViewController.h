@@ -1,5 +1,5 @@
 //
-//  LTHAppDelegate.h
+//  LTHViewController.h
 //  LTHMonthYearPickerView Demo
 //
 //  Created by Roland Leth on 30/11/13.
@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTHMonthYearPickerView.h"
 
-@interface LTHAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface LTHViewController : UIViewController <LTHMonthYearPickerViewDelegate, UITextFieldDelegate>
 
 @end

@@ -2,17 +2,19 @@
 //  LTHAppDelegate.m
 //  LTHMonthYearPickerView Demo
 //
-//  Created by Roland Leth on 30/1/14.
+//  Created by Roland Leth on 30/11/13.
 //  Copyright (c) 2014 Roland Leth. All rights reserved.
 //
 
 #import "LTHAppDelegate.h"
+#import "LTHViewController.h"
 
 @implementation LTHAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	self.window.rootViewController = [[LTHViewController alloc] init];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
