@@ -11,7 +11,7 @@ Drag the contents of `LTHMonthYearPickerView` to your project, or add `pod 'LTHM
  @shortMonths: set to NO if you want months to be returned as January, February, etc.
  @date: set it if you want the picker to be initialized with a specific month and year;
 	it automatically fetches the month & year from @date.
- @showToolbar: set to YES if you want the picker to have a Cancel/Done toolbar.
+ @showToolbar: set to YES if you want the picker to have a Cancel & Done toolbar.
  */
 _monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
 													shortMonths: NO
@@ -30,7 +30,7 @@ Comes with 3 delegate methods:
 
 That's it.
 
-Everything is easily customizable with macros and constants, from month & year fonts and colors individually to the month names, if you need them in another language.
+Everything is easily customizable with macros and constants, from month & year fonts and colors (individually) to the month names, if you need them in another language.
 
 ![Screenshot](http://rolandleth.com/assets/monthyearpickerview/Screenshot.png)
 
