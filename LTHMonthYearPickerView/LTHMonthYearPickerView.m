@@ -14,10 +14,10 @@
 #define kYearFont [UIFont systemFontOfSize: 22.0]
 #define kWinSize [UIScreen mainScreen].bounds.size
 
-const NSUInteger kMonthIndex = 0;
-const NSUInteger kYearIndex = 1;
-const NSUInteger kMinYear = 2014;
-const NSUInteger kMaxYear = 2040;
+const NSUInteger kMonthComponent = 0;
+const NSUInteger kYearComponent = 1;
+const NSUInteger kMinYear = 1970;
+const NSUInteger kMaxYear = 2060;
 const CGFloat kRowHeight = 30.0;
 
 const NSString *kJanuary = @"January";
@@ -51,6 +51,7 @@ const NSString *kDec = @"Dec";
 @property (nonatomic, strong) NSDate *date;
 @property (readwrite) NSInteger currentYear;
 @property (readwrite) NSInteger currentMonth;
+@property (nonatomic, strong) NSDictionary *initialValues;
 
 @end
 
@@ -60,17 +61,42 @@ const NSString *kDec = @"Dec";
 
 #pragma mark - UIPickerViewDelegate
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (!_initialValues) _initialValues = @{ @"month" : _months[_currentMonth],
+                                             @"year" : _years[_currentYear] };
+    if (component == 0) {
+        _currentMonth = [_datePicker selectedRowInComponent: 0];
+        if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:)])
+            [self.delegate pickerDidSelectMonth: _months[_currentMonth]];
+    }
+    else if (component == 1) {
+        _currentYear = [_datePicker selectedRowInComponent: 1];
+        if ([self.delegate respondsToSelector: @selector(pickerDidSelectYear:)])
+            [self.delegate pickerDidSelectYear: _years[_currentYear]];
+    }
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectRow:inComponent:)])
         [self.delegate pickerDidSelectRow: row inComponent: component];
-//	[[NSNotificationCenter defaultCenter] postNotificationName: @"pickerDidSelectRow"
+    if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:andYear:)])
+        [self.delegate pickerDidSelectMonth: _months[_currentMonth]
+                                    andYear: _years[_currentYear]];
+//	[[NSNotificationCenter defaultCenter]
+//     postNotificationName: @"pickerDidSelectRow"
+//     object: self
+//     userInfo: @{ @"row" : @(row), @"component" : @(component) }];
+//	[[NSNotificationCenter defaultCenter] postNotificationName: @"pickerDidSelectYear"
 //														object: self
-//													  userInfo: @{@"row" : @(row),
-//                                                                  @"component" : @(component)}];
+//													  userInfo: _years[_currentYear]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName: @"pickerDidSelectMonth"
+//														object: self
+//													  userInfo: _months[_currentMonth]];
+//	[[NSNotificationCenter defaultCenter]
+//     postNotificationName: @"pickerDidSelectMonth"
+//     object: self
+//     userInfo: @{ @"month" : _months[_currentMonth], @"year" : _years[_currentYear] }];
 }
 
 
 //- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-//    if (component == kMonthIndex) {
+//    if (component == kMonthComponent) {
 //        return _months[row];
 //    }
 //    return [NSString stringWithFormat: @"%@", _years[row]];
@@ -80,7 +106,7 @@ const NSString *kDec = @"Dec";
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
 	UILabel *label = [[UILabel alloc] initWithFrame: CGRectZero];
 	label.textAlignment = NSTextAlignmentCenter;
-	if (component == kMonthIndex) {
+	if (component == kMonthComponent) {
 		label.text = [NSString stringWithFormat: @"%@", _months[row]];
 		label.textColor = kMonthColor;
 		label.font = kMonthFont;
@@ -113,7 +139,7 @@ const NSString *kDec = @"Dec";
 
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (component == kMonthIndex) {
+    if (component == kMonthComponent) {
         return _months.count;
     }
     return _years.count;
@@ -123,21 +149,37 @@ const NSString *kDec = @"Dec";
 #pragma mark - Actions
 - (void)_done {
     if ([self.delegate respondsToSelector: @selector(pickerDidPressDoneWithMonth:andYear:)])
-        [self.delegate pickerDidPressDoneWithMonth: _months[[_datePicker selectedRowInComponent: 0]]
-										   andYear: _years[[_datePicker selectedRowInComponent: 1]]];
-//	[[NSNotificationCenter defaultCenter] postNotificationName: @"pickerDidPressDone"
-//														object: self
-//													  userInfo: @{@"month" : _months[[_datePicker selectedRowInComponent: 0],
-//                                                                  @"year" : _years[[_datePicker selectedRowInComponent: 1]]}];
+        [self.delegate pickerDidPressDoneWithMonth: _months[_currentMonth]
+										   andYear: _years[_currentYear]];
+//	[[NSNotificationCenter defaultCenter]
+//     postNotificationName: @"pickerDidPressDone"
+//     object: self
+//     userInfo: @{ @"month" : _months[_currentMonth], @"year" : _years[_currentYear] }];
+    _initialValues = nil;
 }
 
 
 - (void)_cancel {
-    if ([self.delegate respondsToSelector: @selector(pickerDidPressCancel)])
+    if (!_initialValues) _initialValues = _initialValues = @{ @"month" : _months[_currentMonth],
+                                                              @"year" : _years[_currentYear] };
+    if ([self.delegate respondsToSelector: @selector(pickerDidPressCancelWithInitialValues:)]) {
+        [self.delegate pickerDidPressCancelWithInitialValues: _initialValues];
+        [self.datePicker selectRow: [_months indexOfObject: _initialValues[@"month"]]
+                       inComponent: 0
+                          animated: NO];
+        [self.datePicker selectRow: [_years indexOfObject: _initialValues[@"year"]]
+                       inComponent: 1
+                          animated: NO];
+        _currentMonth = [_months indexOfObject: _initialValues[@"month"]];
+        _currentYear = [_years indexOfObject: _initialValues[@"year"]];
+    }
+    else if ([self.delegate respondsToSelector: @selector(pickerDidPressCancel)])
         [self.delegate pickerDidPressCancel];
-//	[[NSNotificationCenter defaultCenter] postNotificationName: @"pickerDidPressDone"
-//														object: self
-//													  userInfo: nil];
+//	[[NSNotificationCenter defaultCenter]
+//     postNotificationName: @"pickerDidPressDone"
+//     object: self
+//     userInfo: _initialValues];
+    _initialValues = nil;
 }
 
 
@@ -192,6 +234,21 @@ const NSString *kDec = @"Dec";
 						  animated: YES];
         }
     }
+    _currentYear = [_years indexOfObject: @(_currentYear)];
+    _currentMonth--;
+    [self performSelector: @selector(_sendFirstPickerValues) withObject: nil afterDelay: 0.1];
+}
+
+- (void)_sendFirstPickerValues {
+	if ([self.delegate respondsToSelector: @selector(pickerDidSelectRow:inComponent:)]) {
+		[self.delegate pickerDidSelectRow: [self.datePicker selectedRowInComponent:0]
+							  inComponent: 0];
+		[self.delegate pickerDidSelectRow: [self.datePicker selectedRowInComponent:1]
+							  inComponent: 1];
+	}
+    if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:andYear:)])
+        [self.delegate pickerDidSelectMonth: _months[_currentMonth]
+                                    andYear: _years[_currentYear]];
 }
 
 

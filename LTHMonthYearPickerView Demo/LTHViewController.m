@@ -46,6 +46,15 @@
 
 
 #pragma mark - LTHMonthYearPickerView Delegate
+- (void)pickerDidPressCancelWithInitialValues:(NSDictionary *)initialValues {
+	_dateTextField.text = [NSString stringWithFormat:
+						   @"%@ / %@",
+						   initialValues[@"month"],
+						   initialValues[@"year"]];
+    [_dateTextField resignFirstResponder];
+}
+
+
 - (void)pickerDidPressDoneWithMonth:(NSString *)month andYear:(NSString *)year {
     _dateTextField.text = [NSString stringWithFormat: @"%@ / %@", month, year];
 	[_dateTextField resignFirstResponder];
@@ -58,12 +67,22 @@
 
 
 - (void)pickerDidSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	if (component == 0) {
-		NSLog(@"Month: %@", _monthYearPicker.months[row]);
-	}
-	else {
-		NSLog(@"Year: %@", _monthYearPicker.years[row]);
-	}
+	NSLog(@"row: %i in component: %i", row, component);
+}
+
+
+- (void)pickerDidSelectMonth:(NSString *)month {
+    NSLog(@"month: %@ ", month);
+}
+
+
+- (void)pickerDidSelectYear:(NSString *)year {
+    NSLog(@"year: %@ ", year);
+}
+
+
+- (void)pickerDidSelectMonth:(NSString *)month andYear:(NSString *)year {
+    _dateTextField.text = [NSString stringWithFormat: @"%@ / %@", month, year];
 }
 
 

@@ -20,11 +20,15 @@ _monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
 _monthYearPicker.delegate = self;
 ```
 
-Comes with 3 delegate methods:
+Comes with several delegate methods:
 ```objc
 - (void)pickerDidSelectRow:(NSInteger)row inComponent:(NSInteger)component;
+- (void)pickerDidSelectMonth:(NSString *)month;
+- (void)pickerDidSelectYear:(NSString *)year;
+- (void)pickerDidSelectMonth:(NSString *)month andYear:(NSString *)year;
 - (void)pickerDidPressDoneWithMonth:(NSString *)month andYear:(NSString *)year;
 - (void)pickerDidPressCancel;
+- (void)pickerDidPressCancelWithInitialValues:(NSDictionary *)initialValues;
 // Or corresponding notifications; if you prefer it like that, just uncomment the notification posts.
 ```
 

@@ -7,14 +7,18 @@
 //
 
 @protocol LTHMonthYearPickerViewDelegate <NSObject>
-
 @optional
 - (void)pickerDidSelectRow:(NSInteger)row inComponent:(NSInteger)component;
+- (void)pickerDidSelectMonth:(NSString *)month;
+- (void)pickerDidSelectYear:(NSString *)year;
+- (void)pickerDidSelectMonth:(NSString *)month andYear:(NSString *)year;
 - (void)pickerDidPressDoneWithMonth:(NSString *)month andYear:(NSString *)year;
 - (void)pickerDidPressCancel;
-
+// If you want to change the text field dynamically, as the user changes the values,
+// you should implement this method too, so the Cancel button does something.
+// @initialValues comes in the form of @{ "month" : month, @"year" : year }
+- (void)pickerDidPressCancelWithInitialValues:(NSDictionary *)initialValues;
 @end
-
 
 @interface LTHMonthYearPickerView : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
 
