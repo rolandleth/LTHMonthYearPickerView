@@ -24,8 +24,8 @@
 
 @property (nonatomic, strong) id<LTHMonthYearPickerViewDelegate> delegate;
 @property (nonatomic, strong) UIPickerView *datePicker;
-@property (nonatomic, strong) NSArray *months;
-@property (nonatomic, strong) NSMutableArray *years;
+@property (nonatomic, strong) NSString *year;
+@property (nonatomic, strong) NSString *month;
 
 /*
  @numberedMonths: set to YES if you want months to be returned as 01, 02, etc.

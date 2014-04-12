@@ -49,8 +49,10 @@ const NSString *kDec = @"Dec";
 @interface LTHMonthYearPickerView ()
 
 @property (nonatomic, strong) NSDate *date;
-@property (readwrite) NSInteger currentYear;
-@property (readwrite) NSInteger currentMonth;
+@property (readwrite) NSInteger yearIndex;
+@property (readwrite) NSInteger monthIndex;
+@property (nonatomic, strong) NSArray *months;
+@property (nonatomic, strong) NSMutableArray *years;
 @property (nonatomic, strong) NSDictionary *initialValues;
 
 @end
@@ -61,23 +63,23 @@ const NSString *kDec = @"Dec";
 
 #pragma mark - UIPickerViewDelegate
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (!_initialValues) _initialValues = @{ @"month" : _months[_currentMonth],
-                                             @"year" : _years[_currentYear] };
+    if (!_initialValues) _initialValues = @{ @"month" : _months[_monthIndex],
+                                             @"year" : _years[_yearIndex] };
     if (component == 0) {
-        _currentMonth = [_datePicker selectedRowInComponent: 0];
+        _monthIndex = [_datePicker selectedRowInComponent: 0];
         if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:)])
-            [self.delegate pickerDidSelectMonth: _months[_currentMonth]];
+            [self.delegate pickerDidSelectMonth: _months[_monthIndex]];
     }
     else if (component == 1) {
-        _currentYear = [_datePicker selectedRowInComponent: 1];
+        _yearIndex = [_datePicker selectedRowInComponent: 1];
         if ([self.delegate respondsToSelector: @selector(pickerDidSelectYear:)])
-            [self.delegate pickerDidSelectYear: _years[_currentYear]];
+            [self.delegate pickerDidSelectYear: _years[_yearIndex]];
     }
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectRow:inComponent:)])
         [self.delegate pickerDidSelectRow: row inComponent: component];
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:andYear:)])
-        [self.delegate pickerDidSelectMonth: _months[_currentMonth]
-                                    andYear: _years[_currentYear]];
+        [self.delegate pickerDidSelectMonth: _months[_monthIndex]
+                                    andYear: _years[_yearIndex]];
 //	[[NSNotificationCenter defaultCenter]
 //     postNotificationName: @"pickerDidSelectRow"
 //     object: self
@@ -92,6 +94,8 @@ const NSString *kDec = @"Dec";
 //     postNotificationName: @"pickerDidSelectMonth"
 //     object: self
 //     userInfo: @{ @"month" : _months[_currentMonth], @"year" : _years[_currentYear] }];
+	_year = _years[_yearIndex];
+    _month = _months[_monthIndex];
 }
 
 
@@ -149,19 +153,21 @@ const NSString *kDec = @"Dec";
 #pragma mark - Actions
 - (void)_done {
     if ([self.delegate respondsToSelector: @selector(pickerDidPressDoneWithMonth:andYear:)])
-        [self.delegate pickerDidPressDoneWithMonth: _months[_currentMonth]
-										   andYear: _years[_currentYear]];
+        [self.delegate pickerDidPressDoneWithMonth: _months[_monthIndex]
+										   andYear: _years[_yearIndex]];
 //	[[NSNotificationCenter defaultCenter]
 //     postNotificationName: @"pickerDidPressDone"
 //     object: self
 //     userInfo: @{ @"month" : _months[_currentMonth], @"year" : _years[_currentYear] }];
     _initialValues = nil;
+	_year = _years[_yearIndex];
+    _month = _months[_monthIndex];
 }
 
 
 - (void)_cancel {
-    if (!_initialValues) _initialValues = _initialValues = @{ @"month" : _months[_currentMonth],
-                                                              @"year" : _years[_currentYear] };
+    if (!_initialValues) _initialValues  = @{ @"month" : _months[_monthIndex],
+											  @"year" : _years[_yearIndex] };
     if ([self.delegate respondsToSelector: @selector(pickerDidPressCancelWithInitialValues:)]) {
         [self.delegate pickerDidPressCancelWithInitialValues: _initialValues];
         [self.datePicker selectRow: [_months indexOfObject: _initialValues[@"month"]]
@@ -170,8 +176,6 @@ const NSString *kDec = @"Dec";
         [self.datePicker selectRow: [_years indexOfObject: _initialValues[@"year"]]
                        inComponent: 1
                           animated: NO];
-        _currentMonth = [_months indexOfObject: _initialValues[@"month"]];
-        _currentYear = [_years indexOfObject: _initialValues[@"year"]];
     }
     else if ([self.delegate respondsToSelector: @selector(pickerDidPressCancel)])
         [self.delegate pickerDidPressCancel];
@@ -179,7 +183,11 @@ const NSString *kDec = @"Dec";
 //     postNotificationName: @"pickerDidPressDone"
 //     object: self
 //     userInfo: _initialValues];
-    _initialValues = nil;
+	_monthIndex = [_months indexOfObject: _initialValues[@"month"]];
+	_yearIndex = [_years indexOfObject: _initialValues[@"year"]];
+	_year = _years[_yearIndex];
+    _month = _months[_monthIndex];
+	_initialValues = nil;
 }
 
 
@@ -187,55 +195,37 @@ const NSString *kDec = @"Dec";
 #pragma mark - Init
 - (void)_setupComponents {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    _currentYear = [calendar components: NSCalendarUnitYear
-                               fromDate: [NSDate date]].year;
-    _currentMonth = [calendar components: NSCalendarUnitMonth
-                                fromDate: [NSDate date]].month;
-    if (!_date) {
-        [_datePicker selectRow: _currentMonth - 1
-				   inComponent: 0
-					  animated: YES];
-        [_datePicker selectRow: [_years indexOfObject: @(_currentYear)]
-				   inComponent: 1
-					  animated: YES];
-    }
-    else {
-        NSDateComponents *dateComponents = [calendar components: NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
-                                                       fromDate: _date];
-        if (dateComponents.year < _currentYear) {
-            [_datePicker selectRow: _currentMonth - 1
-					   inComponent: 0
-						  animated: YES];
-            [_datePicker selectRow: [_years indexOfObject: @(_currentYear)]
-					   inComponent: 1
-						  animated: YES];
-        }
-        else if (dateComponents.year == _currentYear) {
-            if (dateComponents.month < _currentMonth) {
-                [_datePicker selectRow: _currentMonth - 1
-						   inComponent: 0
-							  animated: YES];
+	NSInteger currentYear = [calendar components: NSCalendarUnitYear
+										fromDate: [NSDate date]].year;
+	
+	if (currentYear < kMinYear) _yearIndex = [_years indexOfObject: @(kMinYear)];
+	else _yearIndex = [_years indexOfObject: @(currentYear)];
+    _monthIndex = [calendar components: NSCalendarUnitMonth
+                                fromDate: [NSDate date]].month - 1;
+	
+	NSDateComponents *dateComponents =
+	[calendar components: NSCalendarUnitMonth | NSCalendarUnitYear
+				fromDate: _date];
+	// Set your min year to current year for credit card checks.
+    if (_date && kMinYear < [_years[_yearIndex] integerValue]) {
+        if (dateComponents.year == _yearIndex) {
+            if (dateComponents.month >= _monthIndex) {
+				_monthIndex = dateComponents.month - 1;
             }
-            else {
-                [_datePicker selectRow: dateComponents.month - 1
-						   inComponent: 0
-							  animated: YES];
-            }
-            [_datePicker selectRow: [_years indexOfObject: @(_currentYear)]
-					   inComponent: 1
-						  animated: YES];
+			_yearIndex = [_years indexOfObject: @(dateComponents.year)];
         }
         else {
-            [_datePicker selectRow: dateComponents.month - 1
-					   inComponent: 0
-						  animated: YES];
-            [_datePicker selectRow: [_years indexOfObject: @(dateComponents.year)]
-					   inComponent: 1
-						  animated: YES];
+			_yearIndex = [_years indexOfObject: @(dateComponents.year)];
+			_monthIndex = dateComponents.month - 1;
         }
     }
-    _currentYear = [_years indexOfObject: @(_currentYear)];
-    _currentMonth--;
+	
+	[_datePicker selectRow: _monthIndex
+			   inComponent: 0
+				  animated: YES];
+	[_datePicker selectRow: _yearIndex
+			   inComponent: 1
+				  animated: YES];
     [self performSelector: @selector(_sendFirstPickerValues) withObject: nil afterDelay: 0.1];
 }
 
@@ -247,8 +237,10 @@ const NSString *kDec = @"Dec";
 							  inComponent: 1];
 	}
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:andYear:)])
-        [self.delegate pickerDidSelectMonth: _months[_currentMonth]
-                                    andYear: _years[_currentYear]];
+        [self.delegate pickerDidSelectMonth: _months[_monthIndex]
+                                    andYear: _years[_yearIndex]];
+	_year = _years[_yearIndex];
+    _month = _months[_monthIndex];
 }
 
 
@@ -265,7 +257,7 @@ const NSString *kDec = @"Dec";
 		else
             _months = @[kJanuary, kFebruary, kMarch, kApril, kMay, kJune,
 						kJuly, kAugust, kSeptember, kOctober, kNovember, kDecember];
-        _years = [[NSMutableArray alloc] initWithCapacity: kMaxYear - kMinYear + 1];
+        _years = [NSMutableArray new];
         for (NSInteger year = kMinYear; year <= kMaxYear; year++) {
             [_years addObject: @(year)];
         }
@@ -289,7 +281,7 @@ const NSString *kDec = @"Dec";
                                         target: self
                                         action: @selector(_done)];
             
-            [toolbar setItems: [NSArray arrayWithObjects:cancelButton,flexSpace,doneBtn, nil]
+            [toolbar setItems: @[cancelButton, flexSpace, doneBtn]
                      animated: YES];
             [self addSubview: toolbar];
             
