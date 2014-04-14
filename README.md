@@ -5,13 +5,11 @@ Simple to use month & year picker view for those pesky Credit Card expiration da
 Drag the contents of `LTHMonthYearPickerView` to your project, or add `pod 'LTHMonthYearPickerView'` to your podspec file.
 
 ```objc
-/*
- @numberedMonths: set to YES if you want months to be returned as 01, 02, etc.
- @shortMonths: set to YES if you want months to be returned as Jan, Feb, etc.
- @shortMonths: set to NO if you want months to be returned as January, February, etc.
- @date: set it if you want the picker to be initialized with a specific month and year;
-	it automatically fetches the month & year from @date.
- @showToolbar: set to YES if you want the picker to have a Cancel & Done toolbar.
+/**
+ *  @param date           set to a date if you want the picker to be initialized with a specific month and year.
+ *  @param shortMonths    set to YES if you want months to be returned as Jan, Feb, etc, set to NO if you want months to be returned as January, February, etc.
+ *  @param numberedMonths set to YES if you want months to be returned as 01, 02, etc.
+ *  @param showToolbar    set to YES if you want the picker to have a Cancel/Done toolbar.
  */
 _monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
 													shortMonths: NO
