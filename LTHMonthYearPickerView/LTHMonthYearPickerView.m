@@ -20,35 +20,8 @@ const NSUInteger kMinYear = 1970;
 const NSUInteger kMaxYear = 2060;
 const CGFloat kRowHeight = 30.0;
 
-const NSString *kJanuary = @"January";
-const NSString *kFebruary = @"February";
-const NSString *kMarch = @"March";
-const NSString *kApril = @"April";
-const NSString *kMay = @"May";
-const NSString *kJune = @"June";
-const NSString *kJuly = @"July";
-const NSString *kAugust = @"August";
-const NSString *kSeptember = @"September";
-const NSString *kOctober = @"October";
-const NSString *kNovember = @"November";
-const NSString *kDecember = @"December";
-
-const NSString *kJan = @"Jan";
-const NSString *kFeb = @"Feb";
-const NSString *kMar = @"Mar";
-const NSString *kApr = @"Apr";
-const NSString *kJun = @"Jun";
-const NSString *kJul = @"Jul";
-const NSString *kAug = @"Aug";
-const NSString *kSep = @"Sep";
-const NSString *kOct = @"Oc";
-const NSString *kNov = @"Nov";
-const NSString *kDec = @"Dec";
-
-
 @interface LTHMonthYearPickerView ()
 
-@property (nonatomic, strong) NSDate *date;
 @property (readwrite) NSInteger yearIndex;
 @property (readwrite) NSInteger monthIndex;
 @property (nonatomic, strong) NSArray *months;
@@ -193,7 +166,7 @@ const NSString *kDec = @"Dec";
 
 
 #pragma mark - Init
-- (void)_setupComponents {
+- (void)_setupComponentsFromDate:(NSDate *)date {
     NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSInteger currentYear = [calendar components: NSCalendarUnitYear
 										fromDate: [NSDate date]].year;
@@ -205,9 +178,9 @@ const NSString *kDec = @"Dec";
 	
 	NSDateComponents *dateComponents =
 	[calendar components: NSCalendarUnitMonth | NSCalendarUnitYear
-				fromDate: _date];
+				fromDate: date];
 	// Set your min year to current year for credit card checks.
-    if (_date && kMinYear < [_years[_yearIndex] integerValue]) {
+    if (kMinYear < [_years[_yearIndex] integerValue]) {
         if (dateComponents.year == _yearIndex) {
             if (dateComponents.month >= _monthIndex) {
 				_monthIndex = dateComponents.month - 1;
@@ -248,15 +221,23 @@ const NSString *kDec = @"Dec";
 - (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar {
     self = [super init];
     if (self) {
-        _date = date;
-        if (numberedMonths)
-            _months = @[@"01", @"02", @"03", @"04", @"05", @"06",
-                        @"07", @"08", @"09", @"10", @"11", @"12"];
-        else if (shortMonths)
-			_months = @[kJan, kFeb, kMar, kApr, kMay, kJun, kJul, kAug, kSep, kOct, kNov, kDec];
-		else
-            _months = @[kJanuary, kFebruary, kMarch, kApril, kMay, kJune,
-						kJuly, kAugust, kSeptember, kOctober, kNovember, kDecember];
+        if (!date) date = [NSDate date];
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [NSDateComponents new];
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        NSMutableArray *months = [NSMutableArray new];
+        dateComponents.month = 1;
+        
+        if (numberedMonths) [dateFormatter setDateFormat: @"MM"]; // MARK: Change to @"M" if you don't want double digits
+        else if (shortMonths) [dateFormatter setDateFormat: @"MMM"];
+        else [dateFormatter setDateFormat: @"MMMM"];
+        for (NSInteger i = 1; i <= 12; i++) {
+            [months addObject: [dateFormatter stringFromDate: [calendar dateFromComponents: dateComponents]]];
+            dateComponents.month++;
+        }
+        
+        _months = [months copy];
         _years = [NSMutableArray new];
         for (NSInteger year = kMinYear; year <= kMaxYear; year++) {
             [_years addObject: @(year)];
@@ -264,9 +245,11 @@ const NSString *kDec = @"Dec";
         
 		CGRect datePickerFrame;
         if (showToolbar) {
-			datePickerFrame = CGRectMake((kWinSize.width - kWinSize.width) / 2, 42, 320.0, 216.0);
+            self.frame = CGRectMake(0.0, 0.0, kWinSize.width, 260.0);
+			datePickerFrame = CGRectMake(0.0, 44.5, self.frame.size.width, 216.0);
+            
             UIToolbar *toolbar = [[UIToolbar alloc]
-                                  initWithFrame: CGRectMake(0, 0, kWinSize.width, 44.0)];
+                                  initWithFrame: CGRectMake(0.0, 0.0, self.frame.size.width, datePickerFrame.origin.y - 0.5)];
             
             UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
                                              initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
@@ -284,18 +267,16 @@ const NSString *kDec = @"Dec";
             [toolbar setItems: @[cancelButton, flexSpace, doneBtn]
                      animated: YES];
             [self addSubview: toolbar];
-            
-            self.frame = CGRectMake(0.0, 0.0, kWinSize.width, 256.0);
         }
         else {
-			datePickerFrame = CGRectMake((kWinSize.width - kWinSize.width) / 2, 0.0, 320.0, 216.0);
 			self.frame = CGRectMake(0.0, 0.0, kWinSize.width, 216.0);
+			datePickerFrame = self.frame;
 		}
         _datePicker = [[UIPickerView alloc] initWithFrame: datePickerFrame];
         _datePicker.dataSource = self;
         _datePicker.delegate = self;
         [self addSubview: _datePicker];
-        [self _setupComponents];
+        [self _setupComponentsFromDate: date];
     }
     return self;
 }
