@@ -171,8 +171,8 @@ const CGFloat kRowHeight = 30.0;
 	NSInteger currentYear = [calendar components: NSCalendarUnitYear
 										fromDate: [NSDate date]].year;
 	
-	if (currentYear < kMinYear) _yearIndex = [_years indexOfObject: @(kMinYear)];
-	else _yearIndex = [_years indexOfObject: @(currentYear)];
+	if (currentYear < kMinYear) _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", kMinYear]];
+	else _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", currentYear]];
     _monthIndex = [calendar components: NSCalendarUnitMonth
                                 fromDate: [NSDate date]].month - 1;
 	
@@ -185,10 +185,10 @@ const CGFloat kRowHeight = 30.0;
             if (dateComponents.month >= _monthIndex) {
 				_monthIndex = dateComponents.month - 1;
             }
-			_yearIndex = [_years indexOfObject: @(dateComponents.year)];
+			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", dateComponents.year]];
         }
         else {
-			_yearIndex = [_years indexOfObject: @(dateComponents.year)];
+			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", dateComponents.year]];
 			_monthIndex = dateComponents.month - 1;
         }
     }
@@ -240,7 +240,7 @@ const CGFloat kRowHeight = 30.0;
         _months = [months copy];
         _years = [NSMutableArray new];
         for (NSInteger year = kMinYear; year <= kMaxYear; year++) {
-            [_years addObject: @(year)];
+            [_years addObject: [NSString stringWithFormat: @"%i", year]];
         }
         
 		CGRect datePickerFrame;
