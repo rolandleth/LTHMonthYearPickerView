@@ -222,7 +222,6 @@ const CGFloat kRowHeight = 30.0;
     self = [super init];
     if (self) {
         if (!date) date = [NSDate date];
-        
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDateComponents *dateComponents = [NSDateComponents new];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -232,6 +231,7 @@ const CGFloat kRowHeight = 30.0;
         if (numberedMonths) [dateFormatter setDateFormat: @"MM"]; // MARK: Change to @"M" if you don't want double digits
         else if (shortMonths) [dateFormatter setDateFormat: @"MMM"];
         else [dateFormatter setDateFormat: @"MMMM"];
+        
         for (NSInteger i = 1; i <= 12; i++) {
             [months addObject: [dateFormatter stringFromDate: [calendar dateFromComponents: dateComponents]]];
             dateComponents.month++;
@@ -239,10 +239,11 @@ const CGFloat kRowHeight = 30.0;
         
         _months = [months copy];
         _years = [NSMutableArray new];
+        
         for (NSInteger year = kMinYear; year <= kMaxYear; year++) {
             [_years addObject: [NSString stringWithFormat: @"%i", year]];
         }
-        
+
 		CGRect datePickerFrame;
         if (showToolbar) {
             self.frame = CGRectMake(0.0, 0.0, kWinSize.width, 260.0);

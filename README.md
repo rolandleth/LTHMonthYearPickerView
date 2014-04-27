@@ -6,10 +6,14 @@ Drag the contents of `LTHMonthYearPickerView` to your project, or add `pod 'LTHM
 
 ```objc
 /**
- *  @param date           set to a date if you want the picker to be initialized with a specific month and year.
+ *  Month / Year picker view, for those pesky Credit Card expiration dates and alike.
+ *
+ *  @param date           set to a date if you want the picker to be initialized with a specific month and year, otherwise it is initialized with the current month and year.
  *  @param shortMonths    set to YES if you want months to be returned as Jan, Feb, etc, set to NO if you want months to be returned as January, February, etc.
- *  @param numberedMonths set to YES if you want months to be returned as 01, 02, etc.
+ *  @param numberedMonths set to YES if you want months to be returned as 01, 02, etc. This takes precedence over shortMonths if set to YES.
  *  @param showToolbar    set to YES if you want the picker to have a Cancel/Done toolbar.
+ *
+ *  @return a container view which contains the UIPicker and toolbar
  */
 _monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
 													shortMonths: NO
