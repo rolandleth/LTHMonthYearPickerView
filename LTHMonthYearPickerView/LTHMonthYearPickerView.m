@@ -170,12 +170,12 @@ const CGFloat kRowHeight = 30.0;
     NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSInteger currentYear = [calendar components: NSCalendarUnitYear
 										fromDate: [NSDate date]].year;
-	
-	if (currentYear < kMinYear) _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", kMinYear]];
-	else _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", currentYear]];
+
+	if (currentYear < kMinYear) _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)kMinYear]];
+	else _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)currentYear]];
     _monthIndex = [calendar components: NSCalendarUnitMonth
                                 fromDate: [NSDate date]].month - 1;
-	
+
 	NSDateComponents *dateComponents =
 	[calendar components: NSCalendarUnitMonth | NSCalendarUnitYear
 				fromDate: date];
@@ -185,14 +185,14 @@ const CGFloat kRowHeight = 30.0;
             if (dateComponents.month >= _monthIndex) {
 				_monthIndex = dateComponents.month - 1;
             }
-			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", dateComponents.year]];
+			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)dateComponents.year]];
         }
         else {
-			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%i", dateComponents.year]];
+			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)dateComponents.year]];
 			_monthIndex = dateComponents.month - 1;
         }
     }
-	
+
 	[_datePicker selectRow: _monthIndex
 			   inComponent: 0
 				  animated: YES];
@@ -227,31 +227,31 @@ const CGFloat kRowHeight = 30.0;
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         NSMutableArray *months = [NSMutableArray new];
         dateComponents.month = 1;
-        
+
         if (numberedMonths) [dateFormatter setDateFormat: @"MM"]; // MARK: Change to @"M" if you don't want double digits
         else if (shortMonths) [dateFormatter setDateFormat: @"MMM"];
         else [dateFormatter setDateFormat: @"MMMM"];
-        
+
         for (NSInteger i = 1; i <= 12; i++) {
             [months addObject: [dateFormatter stringFromDate: [calendar dateFromComponents: dateComponents]]];
             dateComponents.month++;
         }
-        
+
         _months = [months copy];
         _years = [NSMutableArray new];
-        
+
         for (NSInteger year = kMinYear; year <= kMaxYear; year++) {
-            [_years addObject: [NSString stringWithFormat: @"%i", year]];
+            [_years addObject: [NSString stringWithFormat: @"%lu", (unsigned long)year]];
         }
 
 		CGRect datePickerFrame;
         if (showToolbar) {
             self.frame = CGRectMake(0.0, 0.0, kWinSize.width, 260.0);
 			datePickerFrame = CGRectMake(0.0, 44.5, self.frame.size.width, 216.0);
-            
+
             UIToolbar *toolbar = [[UIToolbar alloc]
                                   initWithFrame: CGRectMake(0.0, 0.0, self.frame.size.width, datePickerFrame.origin.y - 0.5)];
-            
+
             UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
                                              initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
                                              target: self
@@ -264,7 +264,7 @@ const CGFloat kRowHeight = 30.0;
                                         initWithBarButtonSystemItem: UIBarButtonSystemItemDone
                                         target: self
                                         action: @selector(_done)];
-            
+
             [toolbar setItems: @[cancelButton, flexSpace, doneBtn]
                      animated: YES];
             [self addSubview: toolbar];
