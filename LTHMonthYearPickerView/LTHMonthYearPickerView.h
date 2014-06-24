@@ -23,7 +23,7 @@
 
 @interface LTHMonthYearPickerView : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property (nonatomic, strong) id<LTHMonthYearPickerViewDelegate> delegate;
+@property (nonatomic, weak) id<LTHMonthYearPickerViewDelegate> delegate;
 @property (nonatomic, strong) UIPickerView *datePicker;
 @property (nonatomic, strong) NSString *year;
 @property (nonatomic, strong) NSString *month;
