@@ -30,6 +30,9 @@ const CGFloat kRowHeight = 30.0;
 @property (nonatomic) NSUInteger minimumYear;
 @property (nonatomic) NSUInteger maximumYear;
 
+@property (nonatomic) NSDate *minimumDate;
+@property (nonatomic) NSDate *maximumDate;
+
 @end
 
 
@@ -50,6 +53,17 @@ const CGFloat kRowHeight = 30.0;
         if ([self.delegate respondsToSelector: @selector(pickerDidSelectYear:)])
             [self.delegate pickerDidSelectYear: _years[_yearIndex]];
     }
+    
+    // check if  selected date is valid
+    NSInteger selectedYear = [[_years objectAtIndex:_yearIndex] integerValue];
+    NSDate *selectedDate = [self dateFromMonth:(_monthIndex + 1) andYear:selectedYear];
+    if ([selectedDate compare:_minimumDate] == NSOrderedAscending) {
+        _monthIndex = [self getMonthFromDate:_minimumDate] - 1;
+    } else if ([selectedDate compare:_maximumDate] == NSOrderedDescending) {
+        _monthIndex = [self getMonthFromDate:_maximumDate] - 1;
+    }
+    [pickerView selectRow:_monthIndex inComponent:0 animated:YES];
+    
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectRow:inComponent:)])
         [self.delegate pickerDidSelectRow: row inComponent: component];
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:andYear:)])
@@ -225,6 +239,17 @@ const CGFloat kRowHeight = 30.0;
     return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minYear:kMinYear andMaxYear:kMaxYear];
 }
 
+- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar minDate:(NSDate *)minDate andMaxDate:(NSDate *)maxDate
+{
+    self.minimumDate = minDate;
+    self.maximumDate = maxDate;
+    
+    NSInteger minYear = [self getYearFromDate:minDate];
+    NSInteger maxYear = [self getYearFromDate:maxDate];
+    
+    return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minYear:minYear andMaxYear:maxYear];
+}
+
 - (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar minYear:(NSInteger)minYear andMaxYear:(NSInteger)maxYear {
     self = [super init];
     if (self) {
@@ -307,5 +332,30 @@ const CGFloat kRowHeight = 30.0;
     [_datePicker selectRow:_yearIndex inComponent:1 animated:NO];
 }
 
+#pragma mark - Date handling methods
+
+- (NSInteger)getMonthFromDate:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitMonth fromDate:date];
+    return components.month;
+}
+
+- (NSInteger)getYearFromDate:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:date];
+    return components.year;
+}
+
+- (NSDate *)dateFromMonth:(NSInteger)month andYear:(NSInteger)year
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.day = 1;
+    components.month = month;
+    components.year = year;
+    return [calendar dateFromComponents:components];
+}
 
 @end
