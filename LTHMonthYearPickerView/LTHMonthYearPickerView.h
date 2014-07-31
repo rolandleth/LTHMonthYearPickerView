@@ -39,4 +39,38 @@
  */
 - (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar;
 
+/**
+ @brief				   Month / Year picker view, for those pesky Credit Card expiration dates and alike.
+ @param date           set if you want the picker to be initialized with a specific month and year, otherwise it will be initialized with the current month and year.
+ @param shortMonths    set to YES if you want months to be returned as Jan, Feb, etc, set to NO if you want months to be returned as January, February, etc.
+ @param numberedMonths set to YES if you want months to be returned as 01, 02, etc. This takes precedence over shortMonths if set to YES.
+ @param showToolbar    set to YES if you want the picker to have a Cancel/Done toolbar.
+ @param minYear        set value for minimum year that is displayed in picker.
+ @param maxYear        set value for maximum year that is displayed in picker.
+ @return a container view which contains the UIPicker and toolbar
+ */
+- (id)initWithDate:(NSDate *)date
+       shortMonths:(BOOL)shortMonths
+    numberedMonths:(BOOL)numberedMonths
+        andToolbar:(BOOL)showToolbar
+           minYear:(NSInteger)minYear
+        andMaxYear:(NSInteger)maxYear;
+
+
+/**
+ @brief				   Month / Year picker view, for those pesky Credit Card expiration dates and alike.
+ @param date           set if you want the picker to be initialized with a specific month and year, otherwise it will be initialized with the current month and year.
+ @param shortMonths    set to YES if you want months to be returned as Jan, Feb, etc, set to NO if you want months to be returned as January, February, etc.
+ @param numberedMonths set to YES if you want months to be returned as 01, 02, etc. This takes precedence over shortMonths if set to YES.
+ @param showToolbar    set to YES if you want the picker to have a Cancel/Done toolbar.
+ @param minDate        set value for minimum date that is displayed in picker. Day 1 is default.
+ @param maxDate        set value for maximum date that is displayed in picker. Day 1 is default.
+ @return a container view which contains the UIPicker and toolbar
+ */
+- (id)initWithDate:(NSDate *)date
+       shortMonths:(BOOL)shortMonths
+    numberedMonths:(BOOL)numberedMonths
+        andToolbar:(BOOL)showToolbar
+           minDate:(NSDate *)minDate
+        andMaxDate:(NSDate *)maxDate;
 @end

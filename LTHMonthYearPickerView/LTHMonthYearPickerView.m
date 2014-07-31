@@ -27,6 +27,11 @@ const CGFloat kRowHeight = 30.0;
 @property (nonatomic, strong) NSArray *months;
 @property (nonatomic, strong) NSMutableArray *years;
 @property (nonatomic, strong) NSDictionary *initialValues;
+@property (nonatomic) NSUInteger minimumYear;
+@property (nonatomic) NSUInteger maximumYear;
+
+@property (nonatomic) NSDate *minimumDate;
+@property (nonatomic) NSDate *maximumDate;
 
 @end
 
@@ -48,6 +53,17 @@ const CGFloat kRowHeight = 30.0;
         if ([self.delegate respondsToSelector: @selector(pickerDidSelectYear:)])
             [self.delegate pickerDidSelectYear: _years[_yearIndex]];
     }
+    
+    // check if  selected date is valid
+    NSInteger selectedYear = [[_years objectAtIndex:_yearIndex] integerValue];
+    NSDate *selectedDate = [self dateFromMonth:(_monthIndex + 1) andYear:selectedYear];
+    if ([selectedDate compare:_minimumDate] == NSOrderedAscending) {
+        _monthIndex = [self getMonthFromDate:_minimumDate] - 1;
+    } else if ([selectedDate compare:_maximumDate] == NSOrderedDescending) {
+        _monthIndex = [self getMonthFromDate:_maximumDate] - 1;
+    }
+    [pickerView selectRow:_monthIndex inComponent:0 animated:YES];
+    
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectRow:inComponent:)])
         [self.delegate pickerDidSelectRow: row inComponent: component];
     if ([self.delegate respondsToSelector: @selector(pickerDidSelectMonth:andYear:)])
@@ -170,17 +186,17 @@ const CGFloat kRowHeight = 30.0;
     NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSInteger currentYear = [calendar components: NSCalendarUnitYear
 										fromDate: [NSDate date]].year;
-
-	if (currentYear < kMinYear) _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)kMinYear]];
+    
+	if (currentYear < self.minimumYear) _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)self.minimumYear]];
 	else _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)currentYear]];
     _monthIndex = [calendar components: NSCalendarUnitMonth
-                                fromDate: [NSDate date]].month - 1;
-
+                              fromDate: [NSDate date]].month - 1;
+    
 	NSDateComponents *dateComponents =
 	[calendar components: NSCalendarUnitMonth | NSCalendarUnitYear
 				fromDate: date];
 	// Set your min year to current year for credit card checks.
-    if (kMinYear < [_years[_yearIndex] integerValue]) {
+    if (self.minimumYear < [_years[_yearIndex] integerValue]) {
         if (dateComponents.year == _yearIndex) {
             if (dateComponents.month >= _monthIndex) {
 				_monthIndex = dateComponents.month - 1;
@@ -192,7 +208,7 @@ const CGFloat kRowHeight = 30.0;
 			_monthIndex = dateComponents.month - 1;
         }
     }
-
+    
 	[_datePicker selectRow: _monthIndex
 			   inComponent: 0
 				  animated: YES];
@@ -218,40 +234,60 @@ const CGFloat kRowHeight = 30.0;
 
 
 #pragma mark - Init
-- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar {
+- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar
+{
+    return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minYear:kMinYear andMaxYear:kMaxYear];
+}
+
+- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar minDate:(NSDate *)minDate andMaxDate:(NSDate *)maxDate
+{
+    self.minimumDate = minDate;
+    self.maximumDate = maxDate;
+    
+    NSInteger minYear = [self getYearFromDate:minDate];
+    NSInteger maxYear = [self getYearFromDate:maxDate];
+    
+    return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minYear:minYear andMaxYear:maxYear];
+}
+
+- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar minYear:(NSInteger)minYear andMaxYear:(NSInteger)maxYear {
     self = [super init];
     if (self) {
+        
+        self.minimumYear = minYear;
+        self.maximumYear = maxYear;
+        
         if (!date) date = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDateComponents *dateComponents = [NSDateComponents new];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         NSMutableArray *months = [NSMutableArray new];
         dateComponents.month = 1;
-
+        
         if (numberedMonths) [dateFormatter setDateFormat: @"MM"]; // MARK: Change to @"M" if you don't want double digits
         else if (shortMonths) [dateFormatter setDateFormat: @"MMM"];
         else [dateFormatter setDateFormat: @"MMMM"];
-
+        
         for (NSInteger i = 1; i <= 12; i++) {
             [months addObject: [dateFormatter stringFromDate: [calendar dateFromComponents: dateComponents]]];
             dateComponents.month++;
         }
-
+        
         _months = [months copy];
         _years = [NSMutableArray new];
-
-        for (NSInteger year = kMinYear; year <= kMaxYear; year++) {
+        
+        for (NSInteger year = self.minimumYear; year <= self.maximumYear; year++) {
             [_years addObject: [NSString stringWithFormat: @"%lu", (unsigned long)year]];
         }
-
+        
 		CGRect datePickerFrame;
         if (showToolbar) {
             self.frame = CGRectMake(0.0, 0.0, kWinSize.width, 260.0);
 			datePickerFrame = CGRectMake(0.0, 44.5, self.frame.size.width, 216.0);
-
+            
             UIToolbar *toolbar = [[UIToolbar alloc]
                                   initWithFrame: CGRectMake(0.0, 0.0, self.frame.size.width, datePickerFrame.origin.y - 0.5)];
-
+            
             UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
                                              initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
                                              target: self
@@ -264,7 +300,7 @@ const CGFloat kRowHeight = 30.0;
                                         initWithBarButtonSystemItem: UIBarButtonSystemItemDone
                                         target: self
                                         action: @selector(_done)];
-
+            
             [toolbar setItems: @[cancelButton, flexSpace, doneBtn]
                      animated: YES];
             [self addSubview: toolbar];
@@ -282,5 +318,44 @@ const CGFloat kRowHeight = 30.0;
     return self;
 }
 
+#pragma mark - setters
+
+- (void)setMonth:(NSString *)month
+{
+    _monthIndex = [_months indexOfObject:month];
+    [_datePicker selectRow:_monthIndex inComponent:0 animated:NO];
+}
+
+- (void)setYear:(NSString *)year
+{
+    _yearIndex = [_years indexOfObject:year];
+    [_datePicker selectRow:_yearIndex inComponent:1 animated:NO];
+}
+
+#pragma mark - Date handling methods
+
+- (NSInteger)getMonthFromDate:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitMonth fromDate:date];
+    return components.month;
+}
+
+- (NSInteger)getYearFromDate:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:date];
+    return components.year;
+}
+
+- (NSDate *)dateFromMonth:(NSInteger)month andYear:(NSInteger)year
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.day = 1;
+    components.month = month;
+    components.year = year;
+    return [calendar dateFromComponents:components];
+}
 
 @end
