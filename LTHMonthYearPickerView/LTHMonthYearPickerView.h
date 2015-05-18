@@ -50,11 +50,11 @@
  @return a container view which contains the UIPicker and toolbar
  */
 - (id)initWithDate:(NSDate *)date
-       shortMonths:(BOOL)shortMonths
-    numberedMonths:(BOOL)numberedMonths
-        andToolbar:(BOOL)showToolbar
-           minYear:(NSInteger)minYear
-        andMaxYear:(NSInteger)maxYear;
+			 shortMonths:(BOOL)shortMonths
+		numberedMonths:(BOOL)numberedMonths
+				andToolbar:(BOOL)showToolbar
+					 minYear:(NSInteger)minYear
+				andMaxYear:(NSInteger)maxYear;
 
 
 /**
@@ -68,9 +68,9 @@
  @return a container view which contains the UIPicker and toolbar
  */
 - (id)initWithDate:(NSDate *)date
-       shortMonths:(BOOL)shortMonths
-    numberedMonths:(BOOL)numberedMonths
-        andToolbar:(BOOL)showToolbar
-           minDate:(NSDate *)minDate
-        andMaxDate:(NSDate *)maxDate;
+			 shortMonths:(BOOL)shortMonths
+		numberedMonths:(BOOL)numberedMonths
+				andToolbar:(BOOL)showToolbar
+					 minDate:(NSDate *)minDate
+				andMaxDate:(NSDate *)maxDate;
 @end
