@@ -20,18 +20,26 @@
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	[super viewDidLoad];
+	
 	CGSize winSize = [UIScreen mainScreen].bounds.size;
 	_dateTextField = [[UITextField alloc] initWithFrame: CGRectMake(winSize.width * 0.5 - 75.0,
 																	winSize.height * 0.5 - 20.0,
 																	150.0,
 																	40.0)];
 	
-	_monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
-														shortMonths: NO
-													 numberedMonths: NO
-														 andToolbar: YES];
+	NSDateFormatter *dateFormatter = [NSDateFormatter new];
+	[dateFormatter setDateFormat:@"MM / yyyy"];
+	NSDate *initialDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"%i / %i", 3, 2015]];
+	NSDate *maxDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"%i / %i", 3, 2115]];
+	
+	_monthYearPicker = [[LTHMonthYearPickerView alloc]
+											initWithDate: initialDate
+											shortMonths: NO
+											numberedMonths: NO
+											andToolbar: YES
+											minDate:[NSDate date]
+											andMaxDate:maxDate];
 	_monthYearPicker.delegate = self;
 	_dateTextField.delegate = self;
 	_dateTextField.textAlignment = NSTextAlignmentCenter;
@@ -67,7 +75,7 @@
 
 
 - (void)pickerDidSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	NSLog(@"row: %i in component: %i", row, component);
+	NSLog(@"row: %zd in component: %zd", row, component);
 }
 
 

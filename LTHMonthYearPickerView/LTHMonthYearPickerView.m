@@ -40,6 +40,7 @@ const CGFloat kRowHeight = 30.0;
 
 
 #pragma mark - UIPickerViewDelegate
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	if (!_initialValues) _initialValues = @{ @"month" : _months[_monthIndex],
 																					 @"year" : _years[_yearIndex] };
@@ -54,14 +55,16 @@ const CGFloat kRowHeight = 30.0;
 			[self.delegate pickerDidSelectYear: _years[_yearIndex]];
 	}
 	
-	// check if  selected date is valid
+	// If we have a min / max date, check if selected date is valid compared to them
 	NSInteger selectedYear = [[_years objectAtIndex:_yearIndex] integerValue];
 	NSDate *selectedDate = [self dateFromMonth:(_monthIndex + 1) andYear:selectedYear];
 	if ([selectedDate compare:_minimumDate] == NSOrderedAscending) {
-		_monthIndex = [self getMonthFromDate:_minimumDate] - 1;
-	} else if ([selectedDate compare:_maximumDate] == NSOrderedDescending) {
-		_monthIndex = [self getMonthFromDate:_maximumDate] - 1;
+		_monthIndex = [self monthFromDate:_minimumDate] - 1;
 	}
+	if ([selectedDate compare:_maximumDate] == NSOrderedDescending) {
+		_monthIndex = [self monthFromDate:_maximumDate] - 1;
+	}
+	
 	[pickerView selectRow:_monthIndex inComponent:0 animated:YES];
 	
 	if ([self.delegate respondsToSelector: @selector(pickerDidSelectRow:inComponent:)])
@@ -121,6 +124,7 @@ const CGFloat kRowHeight = 30.0;
 
 
 #pragma mark - UIPickerViewDataSource
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
 	return 2;
 }
@@ -140,6 +144,7 @@ const CGFloat kRowHeight = 30.0;
 
 
 #pragma mark - Actions
+
 - (void)_done {
 	if ([self.delegate respondsToSelector: @selector(pickerDidPressDoneWithMonth:andYear:)])
 		[self.delegate pickerDidPressDoneWithMonth: _months[_monthIndex]
@@ -180,34 +185,21 @@ const CGFloat kRowHeight = 30.0;
 }
 
 
-
 #pragma mark - Init
+
 - (void)_setupComponentsFromDate:(NSDate *)date {
+	if ([date compare:[NSDate date]] == NSOrderedAscending) date = [NSDate date];
+	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
-	NSInteger currentYear = [calendar components: NSCalendarUnitYear
-																			fromDate: [NSDate date]].year;
-	
-	if (currentYear < self.minimumYear) _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)self.minimumYear]];
-	else _yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)currentYear]];
-	_monthIndex = [calendar components: NSCalendarUnitMonth
-														fromDate: [NSDate date]].month - 1;
-	
 	NSDateComponents *dateComponents =
 	[calendar components: NSCalendarUnitMonth | NSCalendarUnitYear
 							fromDate: date];
-	// Set your min year to current year for credit card checks.
-	if (self.minimumYear < [_years[_yearIndex] integerValue]) {
-		if (dateComponents.year == _yearIndex) {
-			if (dateComponents.month >= _monthIndex) {
-				_monthIndex = dateComponents.month - 1;
-			}
-			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)dateComponents.year]];
-		}
-		else {
-			_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%lu", (unsigned long)dateComponents.year]];
-			_monthIndex = dateComponents.month - 1;
-		}
-	}
+	
+	NSInteger currentYear = MAX(_minimumYear,
+															MIN(_maximumYear, dateComponents.year));
+	
+	_yearIndex = [_years indexOfObject: [NSString stringWithFormat: @"%zd", currentYear]];
+	_monthIndex = dateComponents.month - 1;
 	
 	[_datePicker selectRow: _monthIndex
 						 inComponent: 0
@@ -234,18 +226,16 @@ const CGFloat kRowHeight = 30.0;
 
 
 #pragma mark - Init
-- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar
-{
+- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar {
 	return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minYear:kMinYear andMaxYear:kMaxYear];
 }
 
-- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar minDate:(NSDate *)minDate andMaxDate:(NSDate *)maxDate
-{
+- (id)initWithDate:(NSDate *)date shortMonths:(BOOL)shortMonths numberedMonths:(BOOL)numberedMonths andToolbar:(BOOL)showToolbar minDate:(NSDate *)minDate andMaxDate:(NSDate *)maxDate {
 	self.minimumDate = minDate;
 	self.maximumDate = maxDate;
 	
-	NSInteger minYear = [self getYearFromDate:minDate];
-	NSInteger maxYear = [self getYearFromDate:maxDate];
+	NSInteger minYear = [self yearFromDate:minDate];
+	NSInteger maxYear = [self yearFromDate:maxDate];
 	
 	return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minYear:minYear andMaxYear:maxYear];
 }
@@ -317,41 +307,39 @@ const CGFloat kRowHeight = 30.0;
 		[self addSubview: _datePicker];
 		[self _setupComponentsFromDate: date];
 	}
+	
 	return self;
 }
 
-#pragma mark - setters
 
-- (void)setMonth:(NSString *)month
-{
+#pragma mark - Setters
+
+- (void)setMonth:(NSString *)month {
 	_monthIndex = [_months indexOfObject:month];
 	[_datePicker selectRow:_monthIndex inComponent:0 animated:NO];
 }
 
-- (void)setYear:(NSString *)year
-{
+- (void)setYear:(NSString *)year {
 	_yearIndex = [_years indexOfObject:year];
 	[_datePicker selectRow:_yearIndex inComponent:1 animated:NO];
 }
 
+
 #pragma mark - Date handling methods
 
-- (NSInteger)getMonthFromDate:(NSDate *)date
-{
+- (NSInteger)monthFromDate:(NSDate *)date {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *components = [calendar components:NSCalendarUnitMonth fromDate:date];
 	return components.month;
 }
 
-- (NSInteger)getYearFromDate:(NSDate *)date
-{
+- (NSInteger)yearFromDate:(NSDate *)date {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:date];
 	return components.year;
 }
 
-- (NSDate *)dateFromMonth:(NSInteger)month andYear:(NSInteger)year
-{
+- (NSDate *)dateFromMonth:(NSInteger)month andYear:(NSInteger)year {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *components = [[NSDateComponents alloc] init];
 	components.day = 1;
