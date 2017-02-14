@@ -15,7 +15,7 @@
 - (void)pickerDidPressDoneWithMonth:(NSString *)month andYear:(NSString *)year;
 - (void)pickerDidPressCancel;
 /**
- @brief				  If you want to change your text field (and/or variables) dynamically by implementing any of the pickerDidSelect__ delegate methods, instead of doing the change when Done was pressed, you should implement this method too, so the Cancel button restores old values.
+ @brief				  If you want to change your text field (and/or variables) dynamically by implementing any of the @c pickerDidSelect delegate methods, instead of doing the change when @c Done was pressed, you should implement this method too, so the @c Cancel button restores old values.
  @param initialValues @{ "month" : month, @"year" : year }
  */
 - (void)pickerDidPressCancelWithInitialValues:(NSDictionary *)initialValues;
@@ -50,11 +50,11 @@
  @return a container view which contains the UIPicker and toolbar
  */
 - (id)initWithDate:(NSDate *)date
-			 shortMonths:(BOOL)shortMonths
-		numberedMonths:(BOOL)numberedMonths
-				andToolbar:(BOOL)showToolbar
-					 minYear:(NSInteger)minYear
-				andMaxYear:(NSInteger)maxYear;
+	   shortMonths:(BOOL)shortMonths
+	numberedMonths:(BOOL)numberedMonths
+		andToolbar:(BOOL)showToolbar
+		   minYear:(NSInteger)minYear
+		andMaxYear:(NSInteger)maxYear;
 
 
 /**
@@ -68,9 +68,9 @@
  @return a container view which contains the UIPicker and toolbar
  */
 - (id)initWithDate:(NSDate *)date
-			 shortMonths:(BOOL)shortMonths
-		numberedMonths:(BOOL)numberedMonths
-				andToolbar:(BOOL)showToolbar
-					 minDate:(NSDate *)minDate
-				andMaxDate:(NSDate *)maxDate;
+	   shortMonths:(BOOL)shortMonths
+	numberedMonths:(BOOL)numberedMonths
+		andToolbar:(BOOL)showToolbar
+		   minDate:(NSDate *)minDate
+		andMaxDate:(NSDate *)maxDate;
 @end

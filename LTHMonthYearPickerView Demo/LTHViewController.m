@@ -30,16 +30,21 @@
 	
 	NSDateFormatter *dateFormatter = [NSDateFormatter new];
 	[dateFormatter setDateFormat:@"MM / yyyy"];
-	NSDate *initialDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"%i / %i", 3, 2015]];
+	NSDate *minDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"%i / %i", 3, 2015]];
 	NSDate *maxDate = [dateFormatter dateFromString:[NSString stringWithFormat: @"%i / %i", 3, 2115]];
 	
-	_monthYearPicker = [[LTHMonthYearPickerView alloc]
-											initWithDate: initialDate
-											shortMonths: NO
-											numberedMonths: NO
-											andToolbar: YES
-											minDate:[NSDate date]
-											andMaxDate:maxDate];
+	_monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
+																		 shortMonths: NO
+																	 numberedMonths: NO
+																		  andToolbar: YES
+																			  minDate: minDate
+																		  andMaxDate: maxDate];
+//	_monthYearPicker = [[LTHMonthYearPickerView alloc] initWithDate: [NSDate date]
+//																		 shortMonths: NO
+//																	 numberedMonths: NO
+//																		  andToolbar: YES
+//																			  minYear: 2015
+//																		  andMaxYear: 2115];
 	_monthYearPicker.delegate = self;
 	_dateTextField.delegate = self;
 	_dateTextField.textAlignment = NSTextAlignmentCenter;
