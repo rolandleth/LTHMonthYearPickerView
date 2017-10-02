@@ -297,11 +297,11 @@ const CGFloat kRowHeight = 30.0;
     NSDate *maxFromCurrent = [[NSCalendar currentCalendar] dateBySettingUnit:NSCalendarUnitYear
                                                                        value:maxYear + 1
                                                                       ofDate:current
-                                                                     options:NSCalendarMatchLast];
+                                                                     options:NSCalendarMatchNextTime | NSCalendarMatchLast];
     NSDate *maxDate = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay
                                                                value:-1
                                                               toDate:maxFromCurrent
-                                                             options:NSCalendarMatchLast];
+                                                             options:NSCalendarMatchNextTime | NSCalendarMatchLast];
     
     return [self initWithDate:date shortMonths:shortMonths numberedMonths:numberedMonths andToolbar:showToolbar minDate:minDate andMaxDate:maxDate];
 }
