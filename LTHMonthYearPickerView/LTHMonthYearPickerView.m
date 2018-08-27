@@ -41,20 +41,20 @@ const CGFloat kRowHeight = 30.0;
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (!_initialValues) _initialValues = @{ @"month" : _months[_monthIndex],
                                              @"year" : _years[_yearIndex] };
-    NSUInteger (^month)() = ^NSUInteger() {
+    NSUInteger (^month)(void) = ^NSUInteger() {
         return [pickerView selectedRowInComponent: 0];
     };
-    NSUInteger (^year)() = ^NSUInteger() {
+    NSUInteger (^year)(void) = ^NSUInteger() {
         return [pickerView selectedRowInComponent: 1];
     };
     
-    if (year() == 0 && month() < _minComponents.month) {
-        row = _minComponents.month - 1;
-        [pickerView selectRow:row inComponent:0 animated:YES];
+    if (year() == 0 && month() < _minComponents.month - 1) {
+        _monthIndex = _minComponents.month - 1;
+        [pickerView selectRow:_monthIndex inComponent:0 animated:YES];
     }
-    else if (year() == _years.count - 1 && month() > _maxComponents.month) {
-        row = _maxComponents.month - 1;
-        [pickerView selectRow:row inComponent:0 animated:YES];
+    else if (year() == _years.count - 1 && month() > _maxComponents.month - 1) {
+        _monthIndex = _maxComponents.month - 1;
+        [pickerView selectRow:_monthIndex inComponent:0 animated:YES];
     }
     
     if (component == 0) {
